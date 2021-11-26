@@ -35,11 +35,11 @@ def print_entry(data, pos):
 def main():
 
     #change paths to whatever you need it to be
-    FACES_DATA_PATH = 'C:\\Users\\nickj\\Downloads\\data\\facedata\\facedatatest'
-    FACES_LABEL_PATH = 'C:\\Users\\nickj\\Downloads\data\\facedata\\facedatatestlabels'
+    FACES_DATA_PATH = 'data\\facedata\\facedatatest'
+    FACES_LABEL_PATH = 'data\\facedata\\facedatatestlabels'
 
-    NUMBERS_DATA_PATH = 'C:\\Users\\nickj\\Downloads\\data\\digitdata\\testimages'
-    NUMBERS_LABEL_PATH = 'C:\\Users\\nickj\\Downloads\\data\\digitdata\\testlabels'
+    NUMBERS_DATA_PATH = 'data\\digitdata\\testimages'
+    NUMBERS_LABEL_PATH = 'data\\digitdata\\testlabels'
 
     numbers, number_labels = read_data(NUMBERS_DATA_PATH, NUMBERS_LABEL_PATH)
     faces, faces_labels = read_data(FACES_DATA_PATH, FACES_LABEL_PATH)
