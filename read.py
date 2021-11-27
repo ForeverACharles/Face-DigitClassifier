@@ -30,23 +30,25 @@ def print_dataset(data, percent):
         print_entry(data, i)
         print("-----------------------------------------------------------")
 
-def main():
-
+def read_datasets():
     #change paths to whatever you need it to be
     curr_dir = os.path.dirname(__file__) + "\\"
 
-    NUMBERS_DATA_PATH = curr_dir + "data\\digitdata\\testimages"
-    NUMBERS_LABEL_PATH = curr_dir + "data\\digitdata\\testlabels"
+    DIGITS_DATA_PATH = curr_dir + "data\\digitdata\\testimages"
+    DIGITS_LABEL_PATH = curr_dir + "data\\digitdata\\testlabels"
 
     FACES_DATA_PATH = curr_dir + "data\\facedata\\facedatatest"
     FACES_LABEL_PATH = curr_dir + "data\\facedata\\facedatatestlabels"
 
-    numbers, number_labels = read_data(NUMBERS_DATA_PATH, NUMBERS_LABEL_PATH)
+    digits, digits_labels = read_data(DIGITS_DATA_PATH, DIGITS_LABEL_PATH)
     faces, faces_labels = read_data(FACES_DATA_PATH, FACES_LABEL_PATH)
 
     #print_entry(numbers, 72)
     #print_entry(faces, 35)
-    print_dataset(faces, 1)
+    #print_dataset(faces, 0.1)
 
-if __name__ == '__main__':
-    main()
+    digits_dataset = [digits, digits_labels]
+    faces_dataset = [faces, faces_labels]
+
+    return digits_dataset, faces_dataset
+
