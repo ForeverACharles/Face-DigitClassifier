@@ -17,7 +17,10 @@ def main():
 
 def trim_dataset(dataset, percent):
     size = int(len(dataset[0]) * percent)
-    return [dataset[0][:size], dataset[1][:size]]
+    for i in range(len(dataset)):
+        dataset[i] = dataset[i][:size]
+
+    return dataset
 
 if __name__ == '__main__':
     main()

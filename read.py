@@ -47,6 +47,7 @@ def read_datasets():
     #print_entry(faces, 35)
     #print_dataset(faces, 0.1)
 
+    #dataset can be updated to store more information than just the raw data and their correct labels
     digits_dataset = [digits, digits_labels]
     faces_dataset = [faces, faces_labels]
 
