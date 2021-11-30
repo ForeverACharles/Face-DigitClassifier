@@ -16,9 +16,12 @@ def main():
     FACES_TEST_DATA =  curr_dir + "data\\facedata\\facedatatest"
     FACES_TEST_LABELS =  curr_dir +  "data\\facedata\\facedatatestlabels"
    
-   
+
     digits_train_dataset = read_dataset(DIGITS_TRAIN_DATA, DIGITS_TRAIN_LABELS)
     digits_dataset = read_dataset(DIGITS_TEST_DATA, DIGITS_TEST_LABELS)
+
+    digits_train_dataset = trim_dataset(digits_train_dataset, 0.1)
+    digits_dataset = trim_dataset(digits_dataset, 0.1)
     
     #digits_dataset = trim_dataset(digits_dataset, 1)
 
