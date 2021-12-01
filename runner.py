@@ -11,12 +11,12 @@ def main():
 
     perceptron = [p_digits_train, p_digits_evaluate, p_faces_train, p_faces_evaluate]
     naive_bayes = [nb_digits_train, nb_digits_evaluate, nb_faces_train, nb_faces_evaluate]
-    custom_algo = [ca_digits_train, ca_faces_evaluate, ca_faces_train, ca_faces_evaluate]
+    custom_algo = [ca_digits_train, ca_digits_evaluate, ca_faces_train, ca_faces_evaluate]
 
     #add or remove algorithms to test with
     algorithmns = [perceptron, naive_bayes, custom_algo]
 
-    percent = 1
+    percent = 0.1
     digits_results, faces_results = run_all(algorithmns, digits_dataset, faces_dataset, percent)
     report_results(digits_results, faces_results)
 
@@ -26,8 +26,8 @@ def read_datasets():
         curr_dir = os.path.dirname(__file__) + "\\"
 
     DIGITS_TEST_DATA = curr_dir + "data\\digitdata\\testimages"
-    DIGITS_TEST_LABELS = curr_dir +"data\\digitdata\\testlabels"
-    DIGITS_TRAIN_DATA =  curr_dir +"data\\digitdata\\trainingimages"
+    DIGITS_TEST_LABELS = curr_dir + "data\\digitdata\\testlabels"
+    DIGITS_TRAIN_DATA =  curr_dir + "data\\digitdata\\trainingimages"
     DIGITS_TRAIN_LABEL =  curr_dir + "data\\digitdata\\traininglabels"
 
     FACES_TEST_DATA = curr_dir + "data\\facedata\\facedatatest"
