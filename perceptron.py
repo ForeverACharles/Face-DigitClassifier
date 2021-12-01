@@ -1,6 +1,6 @@
 from read import print_entry, print_dataset
 import numpy
-def digits_train(dataset):
+def p_digits_train(dataset):
     #features will be each pixel. each number is a 28*28 picture then add 1 for the w0
 
     #extract data
@@ -51,16 +51,11 @@ def digits_train(dataset):
             print(str(changed) + " images caused the weights to be changed this round")
     return weights
 
-
-
-
-
-   
-
-def digits_evaluate(dataset, weights):
-    print("------------------RESULTS------------------")
+def p_digits_evaluate(dataset, weights):
+    #print("------------------RESULTS------------------")
     sucesses = 0
     fails = 0
+    correct_guesses = [0]*10
     wrong_guesses = [0]*10
     
     # to check our accuracy, we loop through and calculate the value of each perceptron for each input.
@@ -83,22 +78,22 @@ def digits_evaluate(dataset, weights):
                 failed = True
                 break
 
-
         if failed:
             fails = fails + 1
         else:
             sucesses = sucesses + 1
+            correct_guesses[int(dataset[1][i])] = correct_guesses[int(dataset[1][i])] + 1
 
-    print("successes: "+str(sucesses)+ "  failures: "+str(fails))
-    print()
-    for i in range(len(wrong_guesses)):
-        print("Guessed " + str(i) + "'s wrong "+ str(wrong_guesses[i]) + " times.")
+    #print("successes: "+str(sucesses)+ "  failures: "+str(fails))
+    #print()
+    #for i in range(len(wrong_guesses)):
+       # print("Guessed " + str(i) + "s correct: " + str(correct_guesses[i]) + ", wrong: " + str(wrong_guesses[i]) + " times.")
 
-    return 0
+    return  sucesses, fails
 
 
 
-def faces_train(dataset):
+def p_faces_train(dataset):
     #features will be each pixel. each number is a 35*35 picture then add 1 for the w0
 
     #extract data
@@ -141,8 +136,8 @@ def faces_train(dataset):
             print(str(changed) + " faces caused the weights to be changed this round")
     return weights
 
-def faces_evaluate(dataset, weights):
-    print("------------------RESULTS------------------")
+def p_faces_evaluate(dataset, weights):
+    #print("------------------RESULTS------------------")
     sucesses = 0
     fails = 0
     
@@ -152,11 +147,10 @@ def faces_evaluate(dataset, weights):
         failed = False
         #val is the val for the correct perceptron
         val = numpy.dot(dataset[0][i], weights)
+
         if (val >= 0 and dataset[1][i] == 0) or (val < 0 and dataset[1][i] == 1):
             fails = fails + 1
         else:
             sucesses = sucesses + 1
 
-    print("successes: "+str(sucesses)+ "  failures: "+str(fails))
-    print()
-    return 0
+    return sucesses, fails

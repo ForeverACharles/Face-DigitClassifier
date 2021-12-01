@@ -42,21 +42,10 @@ def print_dataset(data, percent):
         print_entry(data, i)
         print("-----------------------------------------------------------")
 
-#def read_datasets(DIGITS_DATA_PATH, DIGITS_LABEL_PATH, FACES_DATA_PATH, FACES_LABEL_PATH):
 def read_dataset(DATA_PATH, LABEL_PATH):
-    #change paths to whatever you need it to be
-    
-
+ 
     data, data_labels = read_data(DATA_PATH, LABEL_PATH)
-    #faces, faces_labels = read_data(FACES_DATA_PATH, FACES_LABEL_PATH)
-
-    #print_entry(numbers, 72)
-    #print_entry(faces, 35)
-    #print_dataset(faces, 0.1)
-
+    
     #dataset can be updated to store more information than just the raw data and their correct labels
     dataset = [data, data_labels]
-    #digits_dataset = [digits, digits_labels]
-    #faces_dataset = [faces, faces_labels]
-
     return dataset
