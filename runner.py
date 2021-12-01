@@ -1,4 +1,4 @@
-from read import read_datasets, print_entry, print_dataset
+from read import read_dataset, print_entry, print_dataset
 from perceptron import p_train, p_evaluate
 import time
 import os
@@ -11,8 +11,8 @@ def main():
     FACES_LABEL_PATH =  "data\\facedata\\facedatatestlabels"
     DIGITS_TRAIN_DATA =  "data\\digitdata\\trainingimages"
     DIGITS_TRAIN_LABEL =   "data\\digitdata\\traininglabels"
-    digits_train_dataset, faces_dataset = read_datasets(DIGITS_TRAIN_DATA, DIGITS_TRAIN_LABEL, FACES_DATA_PATH, FACES_LABEL_PATH)
-    digits_dataset, faces_dataset = read_datasets(DIGITS_TEST_DATA, DIGITS_TEST_LABELS, FACES_DATA_PATH, FACES_LABEL_PATH)
+    digits_train_dataset, faces_dataset = read_dataset(DIGITS_TRAIN_DATA, DIGITS_TRAIN_LABEL, FACES_DATA_PATH, FACES_LABEL_PATH)
+    digits_dataset, faces_dataset = read_dataset(DIGITS_TEST_DATA, DIGITS_TEST_LABELS, FACES_DATA_PATH, FACES_LABEL_PATH)
     #our testing will have us limit the percent of the dataset to perform training on
     digits_train_dataset = trim_dataset(digits_train_dataset, 1)
     #print_dataset(digits_dataset[0], 0.1)
@@ -28,6 +28,7 @@ def main():
     #p_train(faces_dataset)
     #p_evaluate(faces_dataset)
 
+#our testing will have us limit the percent of the dataset to perform training on
 def trim_dataset(dataset, percent):
     size = int(len(dataset[0]) * percent)
     for i in range(len(dataset)):
