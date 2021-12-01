@@ -80,7 +80,7 @@ def p_train(dataset):
                     # since there is one more weight than there are features, we do features[j-1] to access the feature we want
                     weights[prediction][k] = weights[prediction][k] - data[i][int((k-1)/28)][(k-1)%28]
         count = count + 1
-        if changed/len(data) < 0.1:
+        if (changed/len(data) < 0.15 and  changed > 100) or changed/len(data) < 0.1 :
             print(str(changed) + " images caused the weights to be changed this round")
             done = True
         else:
