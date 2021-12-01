@@ -21,6 +21,12 @@ def read_data(data_path, labels_path):
         #we remove the newline char at the end (makes printing nicer) and then call list() on it to turn it into a char array
         for j in range(height):
             data[i].append(list(f[i*height+j][:-1]))
+            
+    #preprocessing 
+    for i in range(len(labels)):
+        for j in range(len(data[0])):
+            for k in range(len(data[0][0])):
+                data[i][j][k] = 1 if data[i][j][k] != ' ' else 0
  
     return data, labels
 
