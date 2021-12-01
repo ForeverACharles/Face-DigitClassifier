@@ -7,12 +7,15 @@ def read_data(data_path, labels_path):
     # get labels
     labels = open(labels_path, 'r').readlines()
     #should be 150 for facedata\facedatatestlabels, should be 1000 for digitdata/testdata
-    #print(len(labels))
+    
+    #extract labels and turn them into ints 
+    for i in range(len(labels)):
+        labels[i] = int(labels[i])
 
     #get data. f contains all lines
     f = open(data_path, 'r').readlines()
     height = int(len(f)/len(labels))  #height of each image = total num of lines / number of labels
-    #print(height)
+    print(height)
 
     #data will be a 3D array of the faces
     data = []

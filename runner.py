@@ -1,5 +1,5 @@
 from read import read_dataset, print_entry, print_dataset
-from perceptron import p_train, p_evaluate
+from perceptron import digits_train, digits_evaluate, faces_train, faces_evaluate
 import time
 import os
 NICKS_COMPUTER = True
@@ -8,19 +8,24 @@ def main():
         #curr_dir = os.path.dirname(__file__) + "\\"
         DIGITS_TEST_DATA =  "data\\digitdata\\testimages"
         DIGITS_TEST_LABELS = "data\\digitdata\\testlabels"
-        FACES_DATA_PATH = "data\\facedata\\facedatatest"
-        FACES_LABEL_PATH =  "data\\facedata\\facedatatestlabels"
         DIGITS_TRAIN_DATA =  "data\\digitdata\\trainingimages"
         DIGITS_TRAIN_LABEL =   "data\\digitdata\\traininglabels"
+
+        
+        FACES_TEST_DATA = "data\\facedata\\facedatatest"
+        FACES_TEST_LABEL =  "data\\facedata\\facedatatestlabels"
+        FACES_TRAIN_DATA = "data\\facedata\\facedatatrain"
+        FACES_TRAIN_LABEL = "data\\facedata\\facedatatrainlabels"
     else:
         curr_dir = os.path.dirname(__file__) + "\\"
         DIGITS_TEST_DATA = curr_dir+ "data\\digitdata\\testimages"
         DIGITS_TEST_LABELS = curr_dir+"data\\digitdata\\testlabels"
-        FACES_DATA_PATH = curr_dir+"data\\facedata\\facedatatest"
-        FACES_LABEL_PATH =  curr_dir+"data\\facedata\\facedatatestlabels"
+        FACES_TEST_DATA= curr_dir+"data\\facedata\\facedatatest"
+        FACES_TEST_LABEL =  curr_dir+"data\\facedata\\facedatatestlabels"
         DIGITS_TRAIN_DATA =  curr_dir+"data\\digitdata\\trainingimages"
         DIGITS_TRAIN_LABEL =  curr_dir+ "data\\digitdata\\traininglabels"
     
+    print('===============DIGITS===============')
     digits_train_dataset = read_dataset(DIGITS_TRAIN_DATA, DIGITS_TRAIN_LABEL)
     digits_dataset = read_dataset(DIGITS_TEST_DATA, DIGITS_TEST_LABELS)
     #digits_dataset, faces_dataset = read_dataset(DIGITS_TEST_DATA, DIGITS_TEST_LABELS, FACES_DATA_PATH, FACES_LABEL_PATH)
@@ -28,16 +33,29 @@ def main():
     digits_train_dataset = trim_dataset(digits_train_dataset, 1)
     #print_dataset(digits_dataset[0], 0.1)
     start = time.time()
-    weights = p_train(digits_train_dataset)
+    weights = digits_train(digits_train_dataset)
     end = time.time()
     print()
-    print("training took "+str(end-start) + "seconds")
+    print("digit training took "+str(end-start) + "seconds")
     print()
 
-    p_evaluate(digits_dataset, weights)
+    digits_evaluate(digits_dataset, weights)
+    print("\n\n\n")
+    print('===============FACES===============')
 
-    #p_train(faces_dataset)
-    #p_evaluate(faces_dataset)
+
+
+
+    faces_train_dataset = read_dataset(FACES_TRAIN_DATA, FACES_TRAIN_LABEL)
+    faces_dataset = read_dataset(FACES_TEST_DATA, FACES_TEST_LABEL)
+    faces_train_dataset = trim_dataset(faces_train_dataset, 1)
+    start = time.time()
+    weights = faces_train(faces_train_dataset)
+    end = time.time()
+    print()
+    print("faces training took "+str(end-start) + "seconds")
+    print()
+    faces_evaluate(faces_dataset, weights)
 
 #our testing will have us limit the percent of the dataset to perform training on
 def trim_dataset(dataset, percent):
