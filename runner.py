@@ -1,6 +1,6 @@
 from read import read_datasets, print_entry, print_dataset
 from perceptron import p_train, p_evaluate
-
+import time
 import os
 
 def main():
@@ -14,11 +14,15 @@ def main():
     digits_train_dataset, faces_dataset = read_datasets(DIGITS_TRAIN_DATA, DIGITS_TRAIN_LABEL, FACES_DATA_PATH, FACES_LABEL_PATH)
     digits_dataset, faces_dataset = read_datasets(DIGITS_TEST_DATA, DIGITS_TEST_LABELS, FACES_DATA_PATH, FACES_LABEL_PATH)
     #our testing will have us limit the percent of the dataset to perform training on
-    #digits_dataset = trim_dataset(digits_dataset, 1)
-
+    digits_train_dataset = trim_dataset(digits_train_dataset, 1)
     #print_dataset(digits_dataset[0], 0.1)
-
+    start = time.time()
     weights = p_train(digits_train_dataset)
+    end = time.time()
+    print()
+    print("training took "+str(end-start) + "seconds")
+    print()
+
     p_evaluate(digits_dataset, weights)
 
     #p_train(faces_dataset)

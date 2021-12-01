@@ -1,98 +1,118 @@
 from read import print_entry, print_dataset
-
-def feature_calc(data, num):
-    #numbers start at 1, therefore subtract 1
-    num = num -1
-
-    # if the pixel isnt empty, return 1. otherwise return 0
-    if data[int(num/28)][num%28] != ' ':  # num/28 gives us the row. num%28 gives the column
-        return 1
-    return 0
-
-
+import numpy
 def calculate(image, weights, label):
     # sum up w0 + w1* feature1(x) + w2*feature2(x) ... etc
 
-    #init as w0
+    #init sum as w0
     val = weights[label][0]
+    
+    # next, calculate each feature's value for the data and multiply it by the weight. add that to the current val
     features = []
-    # for the rest, calculate the feature's value for the data and multiply it by the weight. add that to the current val
     for i in range(1, len(weights[label])):
-        feature_val = feature_calc(image, i)
-        val = val + (feature_val * weights[label][i])
-
-        #add feature val to features for use later in the updating section
-        features.append(feature_val)
+        features.append(1 if image[int((i-1)/28)][(i-1)%28] != ' ' else 0)
+        val = val + (features[i-1] * weights[label][i])
     return val, features
-
 
 def p_train(dataset):
     #features will be each pixel. each number is a 28*28 picture then add 1 for the w0
+
+
+    #extract data
+    data = dataset[0]
+
+    #extract labels and turn them into ints 
+    labels = dataset[1]
+    for i in range(len(labels)):
+        labels[i] = int(labels[i])
     
     # initialize weights to 0
     weights = []
     for i in range(10):
-        weights.append([0]*(28*28+1))
-
+        weights.append([0]*(28*28 + 1))
 
     done = False
     count = 0
     #as long as we changed any of the weights when passing over them we should continue
     # however since the code doesn't seem to work this never happens, this is why count is introduced to stop infinite loops 
-    while(not done and count < 5):
-        changed = False
-        for i in range(len(dataset[0])):
+    while(not done and count < 25):
+        changed = 0
+        for i in range(len(data)):
 
-            # calculates f(xi, w) and returns value of features as well to be used in updating weights 
-            
+            #val stores the values returned by each perceptron for numbers 0 -> 9
+            val = [0]*10
+
+            #start of by setting prediction to 0 and max to the value returned by 0. then loop through other perceptrons, if any of them have a higher val returned they are our prediction 
+            max, features = calculate(data[i], weights, 0)
+            prediction = 0
+            for j in range(1, 10):
+                ret, features_temp = calculate(data[i], weights, j)
+                val[j] = ret
+                #print(val[j])
+                if val[j] > max:
+                    max = val[j]
+                    prediction = j
+
+            #if the prediction we made was wrong we need to update the weights. otherwise, just continue 
+            if prediction != labels[i]:
+                changed = changed + 1  #since we had to change a weight, we will have to do another pass
 
 
-            # if the value it returns is too low, we should increase the weights based on the features
-            for j in range(10):
-                val, features = calculate(dataset[0][i], weights, j)
-                if j == int(dataset[1][i]) and val < 0 :
-                    changed = True  #since we had to change a weight, we will have to do another pass
-                    weights[int(dataset[1][i])][0] = weights[int(dataset[1][i])][0] + 1
-                    for k in range(1, len(weights[int(dataset[1][i])])):
-                        # since there is one more weight than there are features, we do features[j-1] to access the feature we want
-                        weights[int(dataset[1][i])][k] = weights[int(dataset[1][i])][k] + features[k-1]
+                #update the perceptron for what we should have predicted it to be (increase)
+                weights[labels[i]][0] = weights[labels[i]][0] + 1
+                for k in range(1, len(weights[labels[i]])):
+
+                    # since there is one more weight than there are features, we do features[j-1] to access the feature we want
+                    weights[labels[i]][k] = weights[labels[i]][k] + features[k-1]
 
 
-                # if the value it returns is too high, we should decrease the weights based on the features
-                elif j != int(dataset[1][i]) and val >= 0 :
-                    changed = True #since we had to change a weight, we will have to do another pass
-                    weights[j][0] = weights[j][0] - 1
-                    for k in range(1, len(weights[int(dataset[1][i])])):
-                        # since there is one more weight than there are features, we do features[j-1] to access the feature we want
-                        weights[j][k] = weights[j][k] - features[k-1]
-        done = not changed
+                #update the perceptron for what we actually predicted it to be (decrease)
+                weights[prediction][0] = weights[prediction][0]-1
+                for k in range(1, len(weights[prediction])):
+                    
+                    # since there is one more weight than there are features, we do features[j-1] to access the feature we want
+                    weights[prediction][k] = weights[prediction][k] - features[k-1]
         count = count + 1
+        if changed/len(data) < 0.1:
+            print(str(changed) + " images caused the weights to be changed this round")
+            done = True
+        else:
+            done = False
+            print(str(changed) + " images caused the weights to be changed this round")
     return weights
 
 def p_evaluate(dataset, weights):
-    # in order to test the weights we found, we simply calculate the value using the weights and then compare it to the labels. if they are equal, we succeeded. if not we failed
+    print("------------------RESULTS------------------")
     sucesses = 0
     fails = 0
+    wrong_guesses = [0]*10
+    
+    # to check our accuracy, we loop through and calculate the value of each perceptron for each input.
+    # if the perceptron with the highest value is the same as the label, it is a success, else it is a failure
     for i in range(len(dataset[0])):
         failed = False
-        #print('----------')
-        val, features = calculate(dataset[0][i], weights, int(dataset[1][i]))
-        #print("actual("+dataset[1][i]+"): "+ str(val))
+        #val is the val for the correct perceptron
+        val, features= calculate(dataset[0][i], weights, int(dataset[1][i]))
+
         for j in range(10):
+            #ignore the perceptron for the correct value, as we are comparing the others to it, not it to itself
             if(j == int(dataset[1][i])):
                 continue
             val2, features = calculate(dataset[0][i], weights, j)
-            if(int(dataset[1][i])==8):
-                print(str(j) + "   val: "+ str(val2))
-            if val2 > val:
+
+            if val2 >= val:
+                wrong_guesses[int(dataset[1][i])] = wrong_guesses[int(dataset[1][i])] +1
                 failed = True
                 break
+
+
         if failed:
             fails = fails + 1
         else:
-            print("actual("+dataset[1][i]+"): "+ str(val))
             sucesses = sucesses + 1
-        #print("------------")
+
     print("successes: "+str(sucesses)+ "  failures: "+str(fails))
+    print()
+    for i in range(len(wrong_guesses)):
+        print("Guessed " + str(i) + "'s wrong "+ str(wrong_guesses[i]) + " times.")
 
     return 0
