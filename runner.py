@@ -25,7 +25,7 @@ def main():
     digits_dataset = read_dataset(DIGITS_TEST_DATA, DIGITS_TEST_LABELS)
     #digits_dataset, faces_dataset = read_dataset(DIGITS_TEST_DATA, DIGITS_TEST_LABELS, FACES_DATA_PATH, FACES_LABEL_PATH)
     #our testing will have us limit the percent of the dataset to perform training on
-    digits_train_dataset = trim_dataset(digits_train_dataset, 1)
+    digits_train_dataset = trim_dataset(digits_train_dataset, 0.1)
     #print_dataset(digits_dataset[0], 0.1)
     start = time.time()
     weights = p_train(digits_train_dataset)

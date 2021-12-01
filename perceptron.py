@@ -50,10 +50,13 @@ def p_train(dataset):
             val = [0]*10
 
             #start of by setting prediction to 0 and max to the value returned by 0. then loop through other perceptrons, if any of them have a higher val returned they are our prediction 
-            max = calculate(data[i], weights, 0)
+            #max = calculate(data[i], weights, 0)
+
+            max = numpy.dot(data[i], weights[0])
             prediction = 0
             for j in range(1, 10):
-                ret = calculate(data[i], weights, j)
+                #ret = calculate(data[i], weights, j)
+                ret = numpy.dot(data[i], weights[j])
                 val[j] = ret
                 #print(val[j])
                 if val[j] > max:
@@ -66,19 +69,21 @@ def p_train(dataset):
 
 
                 #update the perceptron for what we should have predicted it to be (increase)
-                weights[labels[i]][0] = weights[labels[i]][0] + 1
-                for k in range(1, len(weights[labels[i]])):
+                #weights[labels[i]][0] = weights[labels[i]][0] + 1
+                weights[labels[i]] = numpy.add(weights[labels[i]], data[i])
+                weights[prediction] = numpy.subtract(weights[prediction], data[i])
+                #for k in range(1, len(weights[labels[i]])):
 
                     # since there is one more weight than there are features, we do features[j-1] to access the feature we want
-                    weights[labels[i]][k] = weights[labels[i]][k] + data[i][int((k-1)/28)][(k-1)%28]
+                #    weights[labels[i]][k] = weights[labels[i]][k] + data[i][int((k-1)/28)][(k-1)%28]
 
 
                 #update the perceptron for what we actually predicted it to be (decrease)
-                weights[prediction][0] = weights[prediction][0]-1
-                for k in range(1, len(weights[prediction])):
+                #weights[prediction][0] = weights[prediction][0]-1
+                #for k in range(1, len(weights[prediction])):
                     
                     # since there is one more weight than there are features, we do features[j-1] to access the feature we want
-                    weights[prediction][k] = weights[prediction][k] - data[i][int((k-1)/28)][(k-1)%28]
+                #   weights[prediction][k] = weights[prediction][k] - data[i][int((k-1)/28)][(k-1)%28]
         count = count + 1
         if (changed/len(data) < 0.15 and  changed > 100) or changed/len(data) < 0.1 :
             print(str(changed) + " images caused the weights to be changed this round")
@@ -151,13 +156,15 @@ def p_evaluate(dataset, weights):
     for i in range(len(dataset[0])):
         failed = False
         #val is the val for the correct perceptron
-        val= calculate(dataset[0][i], weights, int(dataset[1][i]))
+        val = numpy.dot(dataset[0][i], weights[int(dataset[1][i])])
+        #val= calculate(dataset[0][i], weights, int(dataset[1][i]))
 
         for j in range(10):
             #ignore the perceptron for the correct value, as we are comparing the others to it, not it to itself
             if(j == int(dataset[1][i])):
                 continue
-            val2 = calculate(dataset[0][i], weights, j)
+            #val2 = calculate(dataset[0][i], weights, j)
+            val2 = numpy.dot(dataset[0][i], weights[j])
 
             if val2 >= val:
                 wrong_guesses[int(dataset[1][i])] = wrong_guesses[int(dataset[1][i])] +1

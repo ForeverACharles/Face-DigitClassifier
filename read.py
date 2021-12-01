@@ -17,16 +17,16 @@ def read_data(data_path, labels_path):
     #data will be a 3D array of the faces
     data = []
     for i in range(len(labels)):
-        data.append([])
+        data.append([0])
         #we remove the newline char at the end (makes printing nicer) and then call list() on it to turn it into a char array
         for j in range(height):
-            data[i].append(list(f[i*height+j][:-1]))
-            
+            for k in range(len(f[i*height+j])-1):
+                data[i].append(f[i*height+j][k])
+
     #preprocessing 
     for i in range(len(labels)):
         for j in range(len(data[0])):
-            for k in range(len(data[0][0])):
-                data[i][j][k] = 1 if data[i][j][k] != ' ' else 0
+                data[i][j] = 1 if data[i][j] != ' ' else 0
  
     return data, labels
 
