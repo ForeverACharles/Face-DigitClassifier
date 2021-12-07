@@ -12,7 +12,7 @@ def p_digits_train(dataset):
     # initialize weights to 0
     weights = []
     for i in range(10):
-        weights.append([0]*(28*28 + 1))
+        weights.append([0]*(28*28))
 
     done = False
     count = 0
@@ -103,7 +103,7 @@ def p_faces_train(dataset):
     labels = dataset[1]
     
     # initialize weights to 0
-    weights = [0]*(70*60 + 1)
+    weights = [0]*(70*60)
 
     done = False
     count = 0
