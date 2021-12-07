@@ -11,15 +11,20 @@ def main():
 
     digits_dataset, faces_dataset = read_datasets()
 
+    #add or remove algorithms to test with
+
     perceptron = [p_digits_train, p_digits_evaluate, p_faces_train, p_faces_evaluate]
+    #perceptron = [p_digits_train, p_digits_evaluate, do_nothing_train, do_nothing_eval]
+    #perceptron = [do_nothing_train, do_nothing_eval, do_nothing_train, do_nothing_eval]
+    
     naive_bayes = [nb_digits_train, nb_digits_evaluate, nb_faces_train, nb_faces_evaluate]
     custom_algo = [ca_digits_train, ca_digits_evaluate, ca_faces_train, ca_faces_evaluate]
 
-    #add or remove algorithms to test with
+    
     algorithms = [perceptron, naive_bayes, custom_algo]
 
     #run 10% up to end_percent iterations of each algorithm
-    end_percent = 0.5
+    end_percent = 0.6
     summary = run_and_report(algorithms, digits_dataset, faces_dataset, end_percent)
     report_summary(summary)
 
@@ -82,10 +87,10 @@ def run_algo(dataset, percent, train, evaluate):
     data = dataset[1]
 
     start = time.time()
-    weights = train(train_dataset)
+    train_info = train(train_dataset)
     end = time.time()
 
-    correct, wrong = evaluate(data, weights)
+    correct, wrong = evaluate(data, train_info)
 
     return round((end - start), 3), [correct, wrong]
 
@@ -123,18 +128,18 @@ def report_summary(summary):
     print("Train\tPerceptron\tNaive Bayes\tCustom Algo\tTrain\tPerceptron\tNaive Bayes\tCustom Algo")
     for i in range(len(summary)):
         print(str(round(0.1 * (i + 1) * 100, 2)) + "%", end="")
-        print("\t" + str(summary[i][0][0][0]) + " sec\t" + str(summary[i][0][1][0]) + " sec\t\t" + str(summary[i][0][2][0]) + " sec", end="\t\t")
+        print("\t" + str(summary[i][0][0][0]) + " sec\t" + str(summary[i][0][1][0]) + " sec\t" + str(summary[i][0][2][0]) + " sec", end="\t\t")
         print(str(round(0.1 * (i + 1) * 100, 2)) + "%", end="")
         print("\t" + str(summary[i][1][0][0]) + " sec\t" + str(summary[i][1][1][0]) + " sec\t\t" + str(summary[i][1][2][0]) + " sec")
 
-        print("\t" + str(summary[i][0][0][1][0]) + " right\t" + str(summary[i][0][1][1][0]) + " right\t\t" + str(summary[i][0][2][1][0]) + " right", end="\t\t")
+        print("\t" + str(summary[i][0][0][1][0]) + " right\t" + str(summary[i][0][1][1][0]) + " right\t" + str(summary[i][0][2][1][0]) + " right", end="\t\t")
         print("\t" + str(summary[i][1][0][1][0]) + " right\t" + str(summary[i][1][1][1][0]) + " right\t\t" + str(summary[i][1][2][1][0]) + " right")
 
-        print("\t" + str(summary[i][0][0][1][1]) + " wrong\t" + str(summary[i][0][1][1][1]) + " wrong\t\t" + str(summary[i][0][2][1][1]) + " wrong", end="\t\t")
+        print("\t" + str(summary[i][0][0][1][1]) + " wrong\t" + str(summary[i][0][1][1][1]) + " wrong\t" + str(summary[i][0][2][1][1]) + " wrong", end="\t\t")
         print("\t" + str(summary[i][1][0][1][1]) + " wrong\t" + str(summary[i][1][1][1][1]) + " wrong\t\t" + str(summary[i][1][2][1][1]) + " wrong\n")
 
     digits_means, faces_means = get_means(summary)
-    print("Avg.\t" + str(digits_means[0][0]) + " sec\t" + str(digits_means[0][1]) + " sec\t\t" + str(digits_means[0][2]) + " sec", end="\t\t")
+    print("Avg.\t" + str(digits_means[0][0]) + " sec\t" + str(digits_means[0][1]) + " sec\t" + str(digits_means[0][2]) + " sec", end="\t\t")
     print("Avg.\t" + str(faces_means[0][0]) + " sec\t" + str(faces_means[0][1]) + " sec\t\t" + str(faces_means[0][2]) + " sec")
 
     print("Avg.\t" + str(digits_means[1][0]) + " right\t" + str(digits_means[1][1]) + " right\t" + str(digits_means[1][2]) + " right", end="\t")
@@ -184,6 +189,22 @@ def trim_dataset(dataset, percent):
         trimmed_dataset[i] = dataset[i][:size]
 
     return trimmed_dataset
+
+#randomly sample up to a perent of the dataset for training
+def random_sample(dataset, percent):
+    size = int(len(dataset[0]) * round(percent, 3))
+    sampled_dataset = [[], []]
+
+    for i in range(size):
+        print()
+
+    return
+
+def do_nothing_train(dataset):
+    return 0
+
+def do_nothing_eval(dataset, something):
+    return 0, 0
 
 if __name__ == '__main__':
     main()

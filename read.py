@@ -15,12 +15,12 @@ def read_data(data_path, labels_path):
     #get data. f contains all lines
     f = open(data_path, 'r').readlines()
     height = int(len(f)/len(labels))  #height of each image = total num of lines / number of labels
-    print(height)
+    #print(height)
 
     #data will be a 3D array of the faces
     data = []
     for i in range(len(labels)):
-        data.append([0])
+        data.append([])
         #we remove the newline char at the end (makes printing nicer) and then call list() on it to turn it into a char array
         for j in range(height):
             for k in range(len(f[i*height+j])-1):
@@ -30,7 +30,7 @@ def read_data(data_path, labels_path):
     for i in range(len(labels)):
         for j in range(len(data[0])):
                 data[i][j] = 1 if data[i][j] != ' ' else 0
- 
+    #print(len(data[0]))
     return data, labels
 
 def print_entry(data, pos):
