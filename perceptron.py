@@ -44,11 +44,11 @@ def p_digits_train(dataset):
                 weights[prediction] = numpy.subtract(weights[prediction], data[i])
         count = count + 1
         if (changed/len(data) < 0.15 and  changed > 100) or changed/len(data) < 0.1 :
-            print(str(changed) + " images caused the weights to be changed this round")
+            #print(str(changed) + " images caused the weights to be changed this round")
             done = True
         else:
             done = False
-            print(str(changed) + " images caused the weights to be changed this round")
+            #print(str(changed) + " images caused the weights to be changed this round")
     return weights
 
 def p_digits_evaluate(dataset, weights):
@@ -129,11 +129,11 @@ def p_faces_train(dataset):
         count = count + 1
         if changed == 0:
         #if (changed/len(data) < 0.15 and  changed > 100) or changed/len(data) < 0.1 :
-            print(str(changed) + " faces caused the weights to be changed this round")
+            #print(str(changed) + " faces caused the weights to be changed this round")
             done = True
         else:
             done = False
-            print(str(changed) + " faces caused the weights to be changed this round")
+            #print(str(changed) + " faces caused the weights to be changed this round")
     return weights
 
 def p_faces_evaluate(dataset, weights):
