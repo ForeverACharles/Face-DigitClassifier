@@ -37,7 +37,6 @@ def ca_digits_train(dataset):
                 count = count+1
                 features.append(k)
         counts.append(count)
-    #print(len(features))
     features.sort()
     for i in range(len(dataset[0])):
         temp = []
@@ -63,7 +62,6 @@ def ca_digits_evaluate(dataset, train_dataset):
         temp = []
         for j in range(len(features)):
             temp.append(data[i][features[j]])
-    #data[i] = temp
         vals = numpy.zeros(10)
         ret = k_neighbors(train_dataset, temp, k)
         for j in range(k):
@@ -79,7 +77,6 @@ def ca_digits_evaluate(dataset, train_dataset):
         else:
             counts[labels[i]] = counts[labels[i]]+1
             fails = fails+1 
-    #print(counts)
     end=time.time()
     print("==============")
     print(end-start)
@@ -87,7 +84,6 @@ def ca_digits_evaluate(dataset, train_dataset):
     return successes, fails
 
 def ca_faces_train(dataset):
-    
     for i in range(len(dataset[0])):
         temp = []
         temp2 = [0]*60
@@ -100,35 +96,6 @@ def ca_faces_train(dataset):
         for j in range(60):
             temp.append(temp2[j])
         dataset[0][i] = temp
-    
-    
-    return dataset
-    total = numpy.zeros(60*70)
-    #for i in range(1):
-    #   total.append(numpy.zeros(60*70))
-
-    for i in range(len(dataset[0])):
-        #total[dataset[1][i]] = numpy.add(total[dataset[1][i]], dataset[0][i])
-        total = numpy.add(total, dataset[0][i])
-    features = []
-    counts = []
-    for i in range(1):
-        count = 0
-        for k in range(60*70):
-            #0.075 : 97.833 right on average
-            if total[k] > len(dataset[0])*0.12 and not(features.__contains__(k)):
-                count = count+1
-                features.append(k)
-        counts.append(count)
-    features.sort()
-    print(len(features))
-    for i in range(len(dataset[0])):
-        temp = []
-        for j in range(len(features)):
-            temp.append(dataset[0][i][features[j]])
-        dataset[0][i] = temp
-    
-    dataset.append(features)
     return dataset
     
 
@@ -137,10 +104,10 @@ def ca_faces_evaluate(dataset, train_dataset):
     #features = train_dataset[2]
     if k %2 == 0:
         k = k+1
-    print(k)
+    #print(k)
     data = dataset[0]
     labels = dataset[1]
-    print(labels)
+    #print(labels)
     successes, fails = 0, 0
     face_fails = 0
     face_successes = 0
@@ -191,9 +158,9 @@ def ca_faces_evaluate(dataset, train_dataset):
 
     nf_fails = fails - face_fails
     nf_suc = successes - face_successes
-    print("FACES: wrong "+ str(face_fails) + " times, right " + str(face_successes) + " times")
+    #print("FACES: wrong "+ str(face_fails) + " times, right " + str(face_successes) + " times")
     
-    print("NOT FACES: wrong "+ str(nf_fails) + " times, right " + str(nf_suc) + " times")
+    #print("NOT FACES: wrong "+ str(nf_fails) + " times, right " + str(nf_suc) + " times")
 
     
     return successes, fails
