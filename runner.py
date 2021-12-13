@@ -24,7 +24,7 @@ def main():
     algorithms = [perceptron, naive_bayes, custom_algo]
 
     #run 10% up to end_percent iterations of each algorithm
-    end_percent = 0.6
+    end_percent = 1
     summary = run_and_report(algorithms, digits_dataset, faces_dataset, end_percent)
     report_summary(summary)
 
