@@ -4,7 +4,7 @@ import numpy
 def nb_digits_train(dataset):
     
     #intialize pixel counting matrices
-    digit_counts = [0] * 10
+    digit_counts = [0 for _ in range(10)]
     pixel_freq = numpy.zeros((10, 784), dtype=int)
 
     #look through all data and count pixel frequencies for each digit
@@ -25,11 +25,11 @@ def nb_digits_train(dataset):
     regions = 784
 
     pixel_cond_prob = numpy.zeros((10, 784), dtype=float)
-    region_cond_prob = numpy.zeros((10, regions), dtype=float)
+    #region_cond_prob = numpy.zeros((10, regions), dtype=float)
     for i in range(10):
         pixel_cond_prob[i] = numpy.array(list(map(lambda count: count / digit_counts[i], pixel_freq[i])))
-        region_cond_prob[i] = split_regions(pixel_cond_prob[i], regions)
-        pixel_cond_prob[i] = upscale_regions(region_cond_prob[i], 784)
+        #region_cond_prob[i] = split_regions(pixel_cond_prob[i], regions)
+        #pixel_cond_prob[i] = upscale_regions(region_cond_prob[i], 784)
 
     #print(pixel_cond_prob[0])    
 
@@ -41,9 +41,9 @@ def nb_digits_evaluate(dataset, probabilities):
     digit_prob, pixel_cond_prob = probabilities[0], probabilities[1]
 
     successes, fails = 0, 0
-    correct_guesses = [0] * 10
-    wrong_guesses = [0] * 10
-    scores = [0] * 10
+    correct_guesses = [0 for _ in range(10)]
+    wrong_guesses = [0 for _ in range(10)]
+    scores = [0 for _ in range(10)]
 
     for i in range(len(data)):
         #calculate the score for each possible digit classification based on the data provided
