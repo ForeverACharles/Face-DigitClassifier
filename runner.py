@@ -16,9 +16,9 @@ def main():
     algorithms = toggle_algorithms(1, 1, 1)
 
     #run up to end_percent of each algorithm (min of 0.1 and max of 1)
-    end_percent = 0.1
+    end_percent = 0.3
     #number of iterations to do
-    iterations = 2
+    iterations = 1
     run_iterations(digits_dataset, faces_dataset, algorithms, end_percent, iterations)
 
 def read_datasets():
@@ -161,7 +161,6 @@ def get_algo_avg(runtimes, rights, wrongs, size):
 
     return [digits_avg, faces_avg]
 
-
 def compute_avgs(runtimes, rights, wrongs):
     runtime = round(numpy.mean(runtimes), 1)
     right = round(numpy.mean(rights), 1)
@@ -210,6 +209,7 @@ def report_statistics(p_stats, nb_stats, ca_stats, end_percent):
         print("\t" + str(p_stats[0][0][i][2]) + "," + str(p_stats[1][0][i][2]) + " wrong  " + str(nb_stats[0][0][i][2]) + "," + str(nb_stats[1][0][i][2]) + " wrong  " + str(ca_stats[0][0][i][2]) + "," + str(ca_stats[1][0][i][2]) +  " wrong", end="\t")
         #faces wrong
         print("\t" + str(p_stats[0][1][i][2]) + "," + str(p_stats[1][1][i][2]) + " wrong  " + str(nb_stats[0][1][i][2]) + "," + str(nb_stats[1][1][i][2]) + " wrong  " + str(ca_stats[0][1][i][2]) + "," + str(ca_stats[1][1][i][2]) +  " wrong")
+        print()
 
 def run_and_report(algorithms, digits_dataset, faces_dataset, end_percent):
 
@@ -310,8 +310,6 @@ def report_summary(summary):
         print("\t" + str(summary[i][0][0][1][1]) + " wrong\t" + str(summary[i][0][1][1][1]) + " wrong\t" + str(summary[i][0][2][1][1]) + " wrong", end="\t")
         #faces wrong
         print("\t" + str(summary[i][1][0][1][1]) + " wrong\t" + str(summary[i][1][1][1][1]) + " wrong\t\t" + str(summary[i][1][2][1][1]) + " wrong\n")
-
-    
 
 def get_means(summary):
     digits_time_sum = [0, 0, 0]
