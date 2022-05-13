@@ -2,7 +2,7 @@
 
 Created by Charles Li and Nicholas Schenk
 
-This project for identifying faces and digits using:
+This project implements 3 algorithms for identifying faces and digits using:
 - Perceptron
 - Naive Bayes
 - K-Nearest Neighbor
