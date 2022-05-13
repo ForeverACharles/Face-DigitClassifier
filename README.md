@@ -1,5 +1,11 @@
 # Classifier for Faces and Digits
 
+Created by Charles Li and Nicholas Schenk
+
+This project for identifying faces and digits using:
+- Perceptron
+- Naive Bayes
+- K-Nearest Neighbor
 
 ### Changelog
 
